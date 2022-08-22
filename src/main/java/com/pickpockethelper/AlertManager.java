@@ -43,7 +43,7 @@ public class AlertManager {
     public void sendAlert(int alertId, boolean includeChatMessage) {
         AlertType type = config.getAlertType();
 
-        if(type == AlertType.SPEECH || includeChatMessage) {
+        if(type == AlertType.CHAT_MESSAGE || includeChatMessage) {
             feedbackManager.sendChatMessage(messages.get(alertId), ChatColorType.HIGHLIGHT);
         }
 
