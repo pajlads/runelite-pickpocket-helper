@@ -100,6 +100,7 @@ public class PickpocketHelperPlugin extends Plugin {
         overlayManager.add(splasherOverlay);
         overlayManager.add(statisticOverlay);
         overlayManager.add(timerOverlay);
+        audioManager.init();
     }
 
     @Override

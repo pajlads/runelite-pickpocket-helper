@@ -19,20 +19,6 @@ import java.util.*;
 public class AudioManager {
     private final HashMap<Integer, Clip> clips = new HashMap<>();
 
-    public AudioManager() {
-        final Map<Integer, String> alertAudioFiles = new HashMap<>();
-        alertAudioFiles.put(AlertID.ROGUE_SET_INCOMPLETE, "rogue_set.wav");
-        alertAudioFiles.put(AlertID.DODGY_BREAK, "dodgy_necklace_break.wav");
-        alertAudioFiles.put(AlertID.HITPOINTS_LOW, "hitpoints_low.wav");
-        alertAudioFiles.put(AlertID.SHADOW_VEIL_FADED, "shadow_veil_faded.wav");
-        alertAudioFiles.put(AlertID.TARGET_DESPAWN, "target_despawn.wav");
-        alertAudioFiles.put(AlertID.SPLASHER_IDLE, "splasher_idle.wav");
-        alertAudioFiles.put(AlertID.PLAYER_IDLE, "player_idle.wav");
-        alertAudioFiles.put(AlertID.NO_INVENTORY_SPACE, "no_space.wav");
-
-        alertAudioFiles.forEach(this::loadAudioFile);
-    }
-
     /**
      * Plays the file connected to the provided alert id.
      * If the clip is already running it does nothing.
@@ -50,6 +36,20 @@ public class AudioManager {
         }
         clip.setFramePosition(0);
         clip.start();
+    }
+
+    public void init() {
+        final Map<Integer, String> alertAudioFiles = new HashMap<>();
+        alertAudioFiles.put(AlertID.ROGUE_SET_INCOMPLETE, "rogue_set.wav");
+        alertAudioFiles.put(AlertID.DODGY_BREAK, "dodgy_necklace_break.wav");
+        alertAudioFiles.put(AlertID.HITPOINTS_LOW, "hitpoints_low.wav");
+        alertAudioFiles.put(AlertID.SHADOW_VEIL_FADED, "shadow_veil_faded.wav");
+        alertAudioFiles.put(AlertID.TARGET_DESPAWN, "target_despawn.wav");
+        alertAudioFiles.put(AlertID.SPLASHER_IDLE, "splasher_idle.wav");
+        alertAudioFiles.put(AlertID.PLAYER_IDLE, "player_idle.wav");
+        alertAudioFiles.put(AlertID.NO_INVENTORY_SPACE, "no_space.wav");
+
+        alertAudioFiles.forEach(this::loadAudioFile);
     }
 
     public void clear() {
