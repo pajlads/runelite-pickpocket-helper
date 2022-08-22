@@ -13,7 +13,7 @@ import javax.inject.Inject;
 import java.awt.*;
 
 /**
- * Used to display information about the last active splahser.
+ * Used to display information about the last active splasher.
  * Includes their name and whether they are idle or splashing.
  */
 public class SplasherOverlay extends OverlayPanel {

@@ -14,7 +14,7 @@ import java.time.Instant;
 
 /**
  * Used to display the player's session stats.
- * Includes successful attempts total and per hour, and the number of failed and failrate.
+ * Includes successful attempts total and per hour, and the number of failed and fail rate.
  */
 public class StatisticOverlay extends OverlayPanel {
 
