@@ -4,10 +4,10 @@ Adds quality of life improvements for pickpocketing.
 Currently, the plugin offers the following improvements:
 <ol>
 <li><a href="#sounds">Sounds</a></li>
-<li><a href="#sounds">Alerts</a></li>
-<li><a href="#sounds">Utility</a></li>
-<li><a href="#sounds">Indicators</a></li>
-<li><a href="#sounds">Overlays</a></li>
+<li><a href="#alerts">Alerts</a></li>
+<li><a href="#utility">Utility</a></li>
+<li><a href="#indicators">Indicators</a></li>
+<li><a href="#overlays">Overlays</a></li>
 </ol>
 
 ![](./cover.png)
