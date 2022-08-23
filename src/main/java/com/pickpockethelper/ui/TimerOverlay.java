@@ -44,7 +44,7 @@ public class TimerOverlay extends OverlayPanel {
         int displayedAmount = session.getTarget().getSecondsBeforeDespawn();
 
         if(displayedAmount < 0) {
-            displayedAmount = 0;
+            return null;
         }
 
         Point timerLocation = target.getCanvasTextLocation(graphics, String.valueOf(displayedAmount), target.getLogicalHeight() + 25);

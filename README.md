@@ -40,9 +40,10 @@ Offers being alerted of specific events, and allows configuring the media.
 
 ### Utility
 
-| Feature 														 | Explanation                                                              |
-|:-----------------------|:-------------------------------------------------------------------------|
-| Left-click Pickpocket	 | Sets pickpocket as default left-click for NPCs that can be pickpocketed. |
+| Feature 														 | Explanation                                                                                                  |
+|:-----------------------|:-------------------------------------------------------------------------------------------------------------|
+| Hide Others	           | While pickpocketing, hides other entities with some exceptions like yourself, your target, and the splasher. |
+| Left-click Pickpocket	 | Sets pickpocket as default left-click for NPCs that can be pickpocketed.                                     |
 
 ### Indicators
 

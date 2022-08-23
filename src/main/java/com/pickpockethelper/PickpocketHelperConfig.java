@@ -183,16 +183,29 @@ public interface PickpocketHelperConfig extends Config
 			position = 2
 	)
 	String utilitySection = "utilitySection";
+
+	@ConfigItem(
+			keyName = "hideOthers",
+			name = "Hide Others",
+			description = "Hide any entity that is not you, your target, the splasher, or your pet, friend, or clanmate. This avoids yellow-clicks and being interrupted by random events or wandering NPC blocking your target.",
+			position = 0,
+			section = utilitySection
+	)
+	default boolean enableHideOthers(){
+		return true;
+	}
+
 	@ConfigItem(
 			keyName = "enableLeftClickPickpocket",
 			name = "Left-click Pickpocket",
 			description = "Make pickpocket the left-click option for any NPC that can be pickpocketed.",
-			position = 0,
+			position = 1,
 			section = utilitySection
 	)
 	default boolean enableLeftClickPickpocket(){
 		return false;
 	}
+
 	@ConfigSection(
 			name = "Indicators",
 			description = "",

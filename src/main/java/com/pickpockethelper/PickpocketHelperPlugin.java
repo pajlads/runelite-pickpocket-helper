@@ -12,6 +12,7 @@ import com.google.inject.Provides;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.*;
 import net.runelite.api.events.*;
+import net.runelite.client.callback.Hooks;
 import net.runelite.client.chat.ChatColorType;
 import net.runelite.client.chat.ChatMessageBuilder;
 import net.runelite.client.config.ConfigManager;
@@ -41,6 +42,8 @@ public class PickpocketHelperPlugin extends Plugin {
     private PickpocketHelperConfig config;
     @Inject
     private Client client;
+    @Inject
+    private Hooks hooks;
     @Inject
     private HighlightManager highlightManager;
     @Inject
@@ -92,6 +95,42 @@ public class PickpocketHelperPlugin extends Plugin {
         messageTriggers.put(MessagePattern.INVENTORY_FULL_PATTERN, this::onInventoryFull);
     }
 
+    /**
+     * Determines if an entity should be rendered before it is.
+     * If enabled by the player, while pickpocketing this hides everyone except:
+     *  - the player and their pet
+     *  - their pickpocket target
+     *  - the splasher
+     *  - friends and clan mates
+     */
+    private boolean shouldRenderEntity(Renderable renderable, boolean drawingUI) {
+        if(!config.enableHideOthers() || !session.isPickpocketing(Duration.ofSeconds(10))) {
+            return true;
+        }
+
+        if(!(renderable instanceof Actor)) {
+            return true;
+        }
+
+        Actor actor = (Actor) renderable;
+
+        if(session.isTarget(actor) || actor.equals(client.getLocalPlayer()) || actor.equals(session.getSplasher().getPlayer())) {
+            return true;
+        }
+
+        if(actor instanceof NPC) {
+            NPC npc = (NPC) actor;
+            if(npc.getComposition().isFollower()) {
+                return client.getLocalPlayer().equals(npc.getInteracting());
+            }
+
+            return false;
+        }
+
+        Player player = (Player) actor;
+        return player.isFriend() || player.isClanMember();
+    }
+
     @Override
     protected void startUp() {
         setupListeners();
@@ -101,10 +140,12 @@ public class PickpocketHelperPlugin extends Plugin {
         overlayManager.add(statisticOverlay);
         overlayManager.add(timerOverlay);
         audioManager.init();
+        hooks.registerRenderableDrawListener(this::shouldRenderEntity);
     }
 
     @Override
     protected void shutDown() {
+        hooks.unregisterRenderableDrawListener(this::shouldRenderEntity);
         highlightManager.clearTargets();
         overlayManager.remove(statusOverlay);
         overlayManager.remove(splasherOverlay);
@@ -173,6 +214,7 @@ public class PickpocketHelperPlugin extends Plugin {
     public void onSoundEffectPlayed(SoundEffectPlayed soundEffect) {
         checkAndMuteSoundEffect(soundEffect);
     }
+
 
     private void onPickpocketAttempt() {
         session.updateLastPickpocketAttempt();
