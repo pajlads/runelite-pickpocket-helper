@@ -139,7 +139,7 @@ public interface PickpocketHelperConfig extends Config
 
 	@ConfigItem(
 		keyName = "enableNecklaceNotification",
-		name = "Dodgly Necklace Breaking",
+		name = "Dodgy Necklace Breaking",
 		description = "Enable being notified when your dodgy necklace breaks.",
 		position = 5,
 		section = alertSection
