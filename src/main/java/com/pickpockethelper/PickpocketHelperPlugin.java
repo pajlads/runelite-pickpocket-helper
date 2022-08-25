@@ -436,13 +436,13 @@ public class PickpocketHelperPlugin extends Plugin {
      * If the threshold is set to 0, the notification is disabled.
      */
     private void checkAndNotifyTargetDespawn() {
-        int notificationDelay = config.getTargetDespawnDelay();
-        if (client.getGameState() != GameState.LOGGED_IN || session.getTarget().getLastDespawnNotify() != null || notificationDelay == 0 || session.getTarget().getNpc() == null || !session.getTarget().isRendered()) {
+        int targetDespawnThreshold = config.getTargetDespawnThreshold();
+        if (client.getGameState() != GameState.LOGGED_IN || session.getTarget().getLastDespawnNotify() != null || targetDespawnThreshold == 0 || session.getTarget().getNpc() == null || !session.getTarget().isRendered()) {
             return;
         }
 
         int secondsBeforeDespawn = session.getTarget().getSecondsBeforeDespawn();
-        if (secondsBeforeDespawn <= notificationDelay && secondsBeforeDespawn > 0) {
+        if (secondsBeforeDespawn <= targetDespawnThreshold && secondsBeforeDespawn > 0) {
             session.getTarget().updateLastDespawnNotify();
             alertManager.sendAlert(AlertID.TARGET_DESPAWN, true);
         }

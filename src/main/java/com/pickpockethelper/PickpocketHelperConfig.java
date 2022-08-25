@@ -1,17 +1,22 @@
 package com.pickpockethelper;
 
 import com.pickpockethelper.utility.AlertType;
-import net.runelite.client.config.*;
-
-import java.awt.*;
+import java.awt.Color;
+import net.runelite.client.config.Alpha;
+import net.runelite.client.config.Config;
+import net.runelite.client.config.ConfigGroup;
+import net.runelite.client.config.ConfigItem;
+import net.runelite.client.config.ConfigSection;
+import net.runelite.client.config.Range;
+import net.runelite.client.config.Units;
 
 @ConfigGroup("pickpockethelper")
 public interface PickpocketHelperConfig extends Config
 {
 	@ConfigSection(
-			name = "Sounds",
-			description = "",
-			position = 0
+		name = "Sounds",
+		description = "",
+		position = 0
 	)
 	String soundSection = "soundSection";
 
@@ -22,18 +27,20 @@ public interface PickpocketHelperConfig extends Config
 		position = 0,
 		section = soundSection
 	)
-	default boolean muteFailSounds(){
+	default boolean muteFailSounds()
+	{
 		return true;
 	}
 
 	@ConfigItem(
-			keyName = "muteSuccessSound",
-			name = "Mute Success Sounds",
-			description = "Mute sounds caused by a successful pickpocket attempt.",
-			position = 1,
-			section = soundSection
+		keyName = "muteSuccessSound",
+		name = "Mute Success Sounds",
+		description = "Mute sounds caused by a successful pickpocket attempt.",
+		position = 1,
+		section = soundSection
 	)
-	default boolean muteSuccessSounds(){
+	default boolean muteSuccessSounds()
+	{
 		return true;
 	}
 
@@ -41,44 +48,51 @@ public interface PickpocketHelperConfig extends Config
 		keyName = "mutePouchSounds",
 		name = "Mute Pouch Sounds",
 		description = "Mute sounds caused by a having- or emptying a full stack of pouches.",
-			position = 2,
+		position = 2,
 		section = soundSection
 	)
-	default boolean mutePouchSounds() { return false; }
+	default boolean mutePouchSounds()
+	{
+		return false;
+	}
 
 	@ConfigItem(
-			keyName = "muteShadowVeilSounds",
-			name = "Mute Shadow Veil Sounds",
-			description = "Mute sounds caused by Shadow Veil when it activates or fades.",
-			position = 3,
-			section = soundSection
+		keyName = "muteShadowVeilSounds",
+		name = "Mute Shadow Veil Sounds",
+		description = "Mute sounds caused by Shadow Veil when it activates or fades.",
+		position = 3,
+		section = soundSection
 	)
-	default boolean muteShadowVeilSounds() { return false; }
+	default boolean muteShadowVeilSounds()
+	{
+		return false;
+	}
 
 	@ConfigSection(
-			name = "Alerts",
-			description = "",
-			position = 1
+		name = "Alerts",
+		description = "",
+		position = 1
 	)
 	String alertSection = "alertSection";
 
 	@ConfigItem(
-			keyName = "alertType",
-			name = "Type",
-			description = "How you will be alerted. Either chat messages, notifications, or speech audio.",
-			position = 0,
-			section = alertSection
+		keyName = "alertType",
+		name = "Type",
+		description = "How you will be alerted. Either chat messages, notifications, or speech audio.",
+		position = 0,
+		section = alertSection
 	)
-	default AlertType getAlertType() {
+	default AlertType getAlertType()
+	{
 		return AlertType.NOTIFICATION;
 	}
 
 	@ConfigItem(
-			keyName = "inactiveDelay",
-			name = "Inactive Delay",
-			description = "The delay for being notified after not having picked any pockets. A value of 0 will disable the notification.",
-			position = 1,
-			section = alertSection
+		keyName = "inactiveDelay",
+		name = "Inactive Delay",
+		description = "The delay for being notified after not having picked any pockets. A value of 0 will disable the notification.",
+		position = 1,
+		section = alertSection
 	)
 	@Units(Units.SECONDS)
 	default int getInactiveNotificationDelay()
@@ -87,24 +101,24 @@ public interface PickpocketHelperConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = "targetDespawnDelay",
-			name = "Despawn Delay",
-			description = "The delay for being notified when your target is about to despawn due to not moving. A value of 0 will disable the notification,",
-			position = 2,
-			section = alertSection
+		keyName = "targetDespawnThreshold",
+		name = "Despawn Threshold",
+		description = "The threshold for being notified when your target is about to despawn due to not moving. A value of 0 will disable the notification,",
+		position = 2,
+		section = alertSection
 	)
 	@Units(Units.SECONDS)
-	default int getTargetDespawnDelay()
+	default int getTargetDespawnThreshold()
 	{
 		return 30;
 	}
 
 	@ConfigItem(
-			keyName = "hpThreshold",
-			name = "HP Threshold",
-			description = "The hitpoint threshold for being notified. A value of 0 will disable the notification.",
-			position = 3,
-			section = alertSection
+		keyName = "hpThreshold",
+		name = "HP Threshold",
+		description = "The hitpoint threshold for being notified. A value of 0 will disable the notification.",
+		position = 3,
+		section = alertSection
 	)
 	default int getHitpointsThreshold()
 	{
@@ -112,113 +126,121 @@ public interface PickpocketHelperConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = "enableIdleSplasherNotification",
-			name = "Idle Splasher",
-			description = "Enable being notified when, if a splasher is present, the target your are pickpocketing is no longer being splashed. Stopping pickpocketing will allow the splasher to restart attacking.",
-			position = 4,
-			section = alertSection
+		keyName = "enableIdleSplasherNotification",
+		name = "Idle Splasher",
+		description = "Enable being notified when, if a splasher is present, the target your are pickpocketing is no longer being splashed. Stopping pickpocketing will allow the splasher to restart attacking.",
+		position = 4,
+		section = alertSection
 	)
-	default boolean enableIdleSplasherNotification() {
+	default boolean enableIdleSplasherNotification()
+	{
 		return true;
 	}
 
 	@ConfigItem(
-			keyName = "enableNecklaceNotification",
-			name = "Dodgly Necklace Breaking",
-			description = "Enable being notified when your dodgy necklace breaks.",
-			position = 5,
-			section = alertSection
+		keyName = "enableNecklaceNotification",
+		name = "Dodgly Necklace Breaking",
+		description = "Enable being notified when your dodgy necklace breaks.",
+		position = 5,
+		section = alertSection
 	)
-	default boolean enableNecklaceNotification() {
+	default boolean enableNecklaceNotification()
+	{
 		return true;
 	}
 
 	@ConfigItem(
-			keyName = "enableRogueEquipmentNotification",
-			name = "Missing Rogue Equipment",
-			description = "Enable being notified when pickpocketing while missing one or more pieces of rogue equipment.",
-			position = 6,
-			section = alertSection
+		keyName = "enableRogueEquipmentNotification",
+		name = "Missing Rogue Equipment",
+		description = "Enable being notified when pickpocketing while missing one or more pieces of rogue equipment.",
+		position = 6,
+		section = alertSection
 	)
-	default boolean enableRogueEquipmentNotification() {
+	default boolean enableRogueEquipmentNotification()
+	{
 		return true;
 	}
 
 	@ConfigItem(
-			keyName = "enableShadowVeilNotification",
-			name = "Shadow Veil Fading",
-			description = "Enable being notified when the Shadow Veil spell fades. Only recommended when you have veil sounds muted.",
-			position = 7,
-			section = alertSection
+		keyName = "enableShadowVeilNotification",
+		name = "Shadow Veil Fading",
+		description = "Enable being notified when the Shadow Veil spell fades. Only recommended when you have veil sounds muted.",
+		position = 7,
+		section = alertSection
 	)
-	default boolean enableShadowVeilNotification() {
+	default boolean enableShadowVeilNotification()
+	{
 		return false;
 	}
 
 	@ConfigItem(
-			keyName = "enableNoSpaceNotification",
-			name = "No Space",
-			description = "Enable being notified when there is no space for new pouches. Only recommended when you have pouch sounds muted.",
-			position = 8,
-			section = alertSection
+		keyName = "enableNoSpaceNotification",
+		name = "No Space",
+		description = "Enable being notified when there is no space for new pouches. Only recommended when you have pouch sounds muted.",
+		position = 8,
+		section = alertSection
 	)
-	default boolean enableNoSpaceNotification() {
+	default boolean enableNoSpaceNotification()
+	{
 		return false;
 	}
 
 	@ConfigItem(
-			keyName = "muteChatMessages",
-			name = "Mute Chat Messages",
-			description = "Disable chat messages that are send accompanying notification- and voice alerts.",
-			position = 9,
-			section = alertSection
+		keyName = "muteChatMessages",
+		name = "Mute Chat Messages",
+		description = "Disable chat messages that are send accompanying notification- and voice alerts.",
+		position = 9,
+		section = alertSection
 	)
-	default boolean muteChatMessages() {
+	default boolean muteChatMessages()
+	{
 		return false;
 	}
 
 	@ConfigSection(
-			name = "Utility",
-			description = "",
-			position = 2
+		name = "Utility",
+		description = "",
+		position = 2
 	)
 	String utilitySection = "utilitySection";
 
 	@ConfigItem(
-			keyName = "hideOthers",
-			name = "Hide Others",
-			description = "Hide any entity that is not you, your target, the splasher, or your pet, friend, or clanmate. This avoids yellow-clicks and being interrupted by random events or wandering NPC blocking your target.",
-			position = 0,
-			section = utilitySection
+		keyName = "hideOthers",
+		name = "Hide Others",
+		description = "Hide any entity that is not you, your target, the splasher, or your pet, friend, or clanmate. This avoids yellow-clicks and being interrupted by random events or wandering NPC blocking your target.",
+		position = 0,
+		section = utilitySection
 	)
-	default boolean enableHideOthers(){
+	default boolean enableHideOthers()
+	{
 		return true;
 	}
 
 	@ConfigItem(
-			keyName = "enableLeftClickPickpocket",
-			name = "Left-click Pickpocket",
-			description = "Make pickpocket the left-click option for any NPC that can be pickpocketed.",
-			position = 1,
-			section = utilitySection
+		keyName = "enableLeftClickPickpocket",
+		name = "Left-click Pickpocket",
+		description = "Make pickpocket the left-click option for any NPC that can be pickpocketed.",
+		position = 1,
+		section = utilitySection
 	)
-	default boolean enableLeftClickPickpocket(){
+	default boolean enableLeftClickPickpocket()
+	{
 		return false;
 	}
 
 	@ConfigSection(
-			name = "Indicators",
-			description = "",
-			position = 3
+		name = "Indicators",
+		description = "",
+		position = 3
 	)
 	String indicatorsSection = "indicatorsSection";
 
 	@ConfigItem(
-			keyName = "enableDespawnTimer",
-			name = "Despawn Timer",
-			description = "Show a timer above your target that counts down to despawning because of not moving.",
-			position = 0,
-			section = indicatorsSection
+		keyName = "enableDespawnTimer",
+		name = "Despawn Timer",
+		description = "Show a timer above your target that counts down to despawning because of not moving.",
+		position = 0,
+		section = indicatorsSection
 	)
 	default boolean enableDespawnTimer()
 	{
@@ -226,11 +248,11 @@ public interface PickpocketHelperConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = "highLightTarget",
-			name = "Highlight Target",
-			description = "Highlight the clickable area of your last target.",
-			position = 1,
-			section = indicatorsSection
+		keyName = "highLightTarget",
+		name = "Highlight Target",
+		description = "Highlight the clickable area of your last target.",
+		position = 1,
+		section = indicatorsSection
 	)
 	default boolean highLightTarget()
 	{
@@ -239,11 +261,11 @@ public interface PickpocketHelperConfig extends Config
 
 	@Alpha
 	@ConfigItem(
-			keyName = "npcColor",
-			name = "Highlight Color",
-			description = "Color of the highlight border, menu, and text.",
-			position = 2,
-			section = indicatorsSection
+		keyName = "npcColor",
+		name = "Highlight Color",
+		description = "Color of the highlight border, menu, and text.",
+		position = 2,
+		section = indicatorsSection
 	)
 	default Color highlightColor()
 	{
@@ -252,11 +274,11 @@ public interface PickpocketHelperConfig extends Config
 
 	@Alpha
 	@ConfigItem(
-			keyName = "fillColor",
-			name = "Fill Color",
-			description = "Color of the highlight fill",
-			position = 3,
-			section = indicatorsSection
+		keyName = "fillColor",
+		name = "Fill Color",
+		description = "Color of the highlight fill",
+		position = 3,
+		section = indicatorsSection
 	)
 	default Color fillColor()
 	{
@@ -264,11 +286,11 @@ public interface PickpocketHelperConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = "borderWidth",
-			name = "Border Width",
-			description = "Width of the highlighted border",
-			position = 4,
-			section = indicatorsSection
+		keyName = "borderWidth",
+		name = "Border Width",
+		description = "Width of the highlighted border",
+		position = 4,
+		section = indicatorsSection
 	)
 	default double borderWidth()
 	{
@@ -276,15 +298,15 @@ public interface PickpocketHelperConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = "outlineFeather",
-			name = "Outline Feather",
-			description = "Fade the highlight outline with a value of 0 to 4.",
-			position = 5,
-			section = indicatorsSection
+		keyName = "outlineFeather",
+		name = "Outline Feather",
+		description = "Fade the highlight outline with a value of 0 to 4.",
+		position = 5,
+		section = indicatorsSection
 	)
 	@Range(
-			min = 0,
-			max = 4
+		min = 0,
+		max = 4
 	)
 	default int outlineFeather()
 	{
@@ -292,36 +314,45 @@ public interface PickpocketHelperConfig extends Config
 	}
 
 	@ConfigSection(
-			name = "Overlays",
-			description = "",
-			position = 4
+		name = "Overlays",
+		description = "",
+		position = 4
 	)
 	String overlaySection = "overlaySection";
 
 	@ConfigItem(
-			keyName = "enableSplasherOverlay",
-			name = "Splasher Info",
-			description = "Enable displaying an overlaying containing information, if present, about the splasher.",
-			position = 0,
-			section = overlaySection
+		keyName = "enableSplasherOverlay",
+		name = "Splasher Info",
+		description = "Enable displaying an overlaying containing information, if present, about the splasher.",
+		position = 0,
+		section = overlaySection
 	)
-	default boolean enableSplasherOverlay() {return true; }
+	default boolean enableSplasherOverlay()
+	{
+		return true;
+	}
 
 	@ConfigItem(
-			keyName = "enableStatsOverlay",
-			name = "Session Stats",
-			description = "Enable displaying an overlaying containing session stats.",
-			position = 1,
-			section = overlaySection
+		keyName = "enableStatsOverlay",
+		name = "Session Stats",
+		description = "Enable displaying an overlaying containing session stats.",
+		position = 1,
+		section = overlaySection
 	)
-	default boolean enableStatsOverlay() {return true; }
+	default boolean enableStatsOverlay()
+	{
+		return true;
+	}
 
 	@ConfigItem(
-			keyName = "enableStatusOverlay",
-			name = "Pickpocket Status",
-			description = "Enable displaying an overlay indicating if you are pickpocketing.",
-			position = 2,
-			section = overlaySection
+		keyName = "enableStatusOverlay",
+		name = "Pickpocket Status",
+		description = "Enable displaying an overlay indicating if you are pickpocketing.",
+		position = 2,
+		section = overlaySection
 	)
-	default boolean enableStatusOverlay() {return false; }
+	default boolean enableStatusOverlay()
+	{
+		return false;
+	}
 }
