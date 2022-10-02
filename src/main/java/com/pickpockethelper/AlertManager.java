@@ -16,8 +16,6 @@ import java.util.Map;
 public class AlertManager {
     @Inject
     private FeedbackManager feedbackManager;
-    @Inject
-    private AudioManager audioManager;
 
     @Inject
     private PickpocketHelperConfig config;
@@ -50,9 +48,6 @@ public class AlertManager {
         switch (type) {
             case NOTIFICATION:
                 feedbackManager.sendNotification(messages.get(alertId), false);
-                break;
-            case SPEECH:
-                audioManager.play(alertId);
                 break;
         }
     }

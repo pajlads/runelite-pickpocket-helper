@@ -78,7 +78,7 @@ public interface PickpocketHelperConfig extends Config
 	@ConfigItem(
 		keyName = "alertType",
 		name = "Type",
-		description = "How you will be alerted. Either chat messages, notifications, or speech audio.",
+		description = "How you will be alerted. Either chat messages or notifications.",
 		position = 0,
 		section = alertSection
 	)
