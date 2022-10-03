@@ -84,7 +84,7 @@ public interface PickpocketHelperConfig extends Config
 	)
 	default AlertType getAlertType()
 	{
-		return AlertType.NOTIFICATION;
+		return AlertType.SPEECH;
 	}
 
 	@ConfigItem(
