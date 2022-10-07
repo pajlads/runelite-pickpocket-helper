@@ -1,5 +1,6 @@
 package com.pickpockethelper;
 
+import com.google.common.collect.ImmutableSet;
 import com.pickpockethelper.entity.Session;
 import com.pickpockethelper.ui.SplasherOverlay;
 import com.pickpockethelper.ui.StatisticOverlay;
@@ -37,6 +38,9 @@ import java.util.regex.Pattern;
 )
 public class PickpocketHelperPlugin extends Plugin {
     private static final HashMap<String, Runnable> messageTriggers = new HashMap<>();
+	private static final Set<String> blockedPatterns = ImmutableSet.of(
+		MessagePattern.NO_SPACE_PATTERN
+	);
 
     @Inject
     private PickpocketHelperConfig config;
@@ -182,7 +186,24 @@ public class PickpocketHelperPlugin extends Plugin {
         checkAndExecuteChatMessageTriggers(chatMessage);
     }
 
-    @Subscribe
+	@Subscribe
+	public void onScriptCallbackEvent(ScriptCallbackEvent event)
+	{
+		if (!config.enableBlockSpam() || !"chatFilterCheck".equals(event.getEventName())) {
+			return;
+		}
+
+		String message = client.getStringStack()[client.getStringStackSize() - 1];
+		String content = Text.removeTags(message);
+
+		blockedPatterns.forEach((pattern) -> {
+			if (Pattern.compile(pattern).matcher(content).find()) {
+				client.getIntStack()[client.getIntStackSize() - 3] = 0;
+			}
+		});
+	}
+
+	@Subscribe
     private void onHitsplatApplied(HitsplatApplied hitsplatApplied) {
         checkAndNotifyLowHitpoints(hitsplatApplied.getHitsplat());
     }

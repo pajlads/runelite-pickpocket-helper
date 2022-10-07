@@ -241,10 +241,22 @@ public interface PickpocketHelperConfig extends Config
 	}
 
 	@ConfigItem(
+		keyName = "blockSpam",
+		name = "Hide Spam Messages",
+		description = "Hide game messages that spam your chat box but aren't filtered, like having to empty your pouches.",
+		position = 1,
+		section = utilitySection
+	)
+	default boolean enableBlockSpam()
+	{
+		return true;
+	}
+
+	@ConfigItem(
 		keyName = "enableLeftClickPickpocket",
 		name = "Left-click Pickpocket",
 		description = "Make pickpocket the left-click option for any NPC that can be pickpocketed.",
-		position = 1,
+		position = 2,
 		section = utilitySection
 	)
 	default boolean enableLeftClickPickpocket()
