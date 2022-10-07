@@ -535,8 +535,12 @@ public class PickpocketHelperPlugin extends Plugin {
                 }
                 break;
             case com.pickpockethelper.utility.SoundEffectID.POUCHES_EMPTY:
-            case com.pickpockethelper.utility.SoundEffectID.POUCHES_FULL:
-                if (config.mutePouchSounds()) {
+				if (config.muteEmptyPouchSound()) {
+					soundEffect.consume();
+				}
+				break;
+            case com.pickpockethelper.utility.SoundEffectID.NO_SPACE:
+                if (config.muteNoSpaceSound()) {
                     soundEffect.consume();
                 }
                 break;

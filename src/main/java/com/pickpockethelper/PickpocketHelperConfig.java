@@ -45,13 +45,25 @@ public interface PickpocketHelperConfig extends Config
 	}
 
 	@ConfigItem(
-		keyName = "mutePouchSounds",
-		name = "Mute Pouch Sounds",
-		description = "Mute sounds caused by a having- or emptying a full stack of pouches.",
+		keyName = "muteEmptyPouch",
+		name = "Mute Empty Pouch",
+		description = "Mute sounds caused by emptying pouches.",
 		position = 2,
 		section = soundSection
 	)
-	default boolean mutePouchSounds()
+	default boolean muteEmptyPouchSound()
+	{
+		return false;
+	}
+
+	@ConfigItem(
+		keyName = "muteNoSpace",
+		name = "Mute No Space",
+		description = "Mute sounds caused by pickpocketing while having no space for new pouches.",
+		position = 3,
+		section = soundSection
+	)
+	default boolean muteNoSpaceSound()
 	{
 		return false;
 	}
@@ -60,7 +72,7 @@ public interface PickpocketHelperConfig extends Config
 		keyName = "muteVeilActivateSound",
 		name = "Mute Shadow Veil Activate",
 		description = "Mute sounds caused by Shadow Veil activating.",
-		position = 3,
+		position = 4,
 		section = soundSection
 	)
 	default boolean muteVeilActivateSound()
@@ -72,7 +84,7 @@ public interface PickpocketHelperConfig extends Config
 		keyName = "muteVeilFadeSound",
 		name = "Mute Shadow Veil Fade",
 		description = "Mute sounds caused by Shadow Veil fading.",
-		position = 4,
+		position = 5,
 		section = soundSection
 	)
 	default boolean muteVeilFadeSound()

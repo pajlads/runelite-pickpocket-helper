@@ -10,7 +10,7 @@ public final class SoundEffectID {
     public final static int TAKE_DAMAGE_TWO = 519;
     public final static int TAKE_DAMAGE_THREE = 520;
     public final static int TAKE_DAMAGE_FOUR = 521;
-    public final static int POUCHES_FULL = 2277;
+    public final static int NO_SPACE = 2277;
     public final static int POUCHES_EMPTY = 2115;
     public final static int SHADOW_VEIL_ACTIVE = 5032;
     public final static int SHADOW_VEIL_FADE = 5062;
