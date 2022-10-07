@@ -43,15 +43,31 @@ public class StatisticOverlay extends OverlayPanel {
         int perHourCount = (successCount < 1) ? 0 : Math.round(((float) successCount / (float) secondsSinceSessionStart) * 3600);
 
         int failRatio = (totalCount == 0) ? 0 : (failCount == 0) ? 0 : Math.round(((float) failCount / (float) totalCount) * 100);
-        panelComponent.getChildren().add(LineComponent.builder()
-                .left("Picked:")
-                .right(successCount + " (" + perHourCount +"/hr)")
-                .build());
+		int successRatio = 100 - failRatio;
 
         panelComponent.getChildren().add(LineComponent.builder()
-                .left("Failed:")
-                .right(failCount + " (" + failRatio + "%)")
+                .left("Picked:")
+                .right(String.valueOf(successCount))
                 .build());
+		panelComponent.getChildren().add(LineComponent.builder()
+			.left("Rate:")
+			.right(successRatio +"%")
+			.build());
+		panelComponent.getChildren().add(LineComponent.builder()
+			.left("Per hour:")
+			.right(String.valueOf(perHourCount))
+			.build());
+
+		panelComponent.getChildren().add(LineComponent.builder().build());
+
+		panelComponent.getChildren().add(LineComponent.builder()
+			.left("Failed:")
+			.right(String.valueOf(failCount))
+			.build());
+		panelComponent.getChildren().add(LineComponent.builder()
+			.left("Rate:")
+			.right(failRatio +"%")
+			.build());
 
         return super.render(graphics);
     }
