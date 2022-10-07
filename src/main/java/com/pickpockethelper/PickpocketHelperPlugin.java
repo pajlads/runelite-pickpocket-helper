@@ -541,8 +541,12 @@ public class PickpocketHelperPlugin extends Plugin {
                 }
                 break;
             case com.pickpockethelper.utility.SoundEffectID.SHADOW_VEIL_ACTIVE:
+				if(config.muteVeilActivateSound()) {
+					soundEffect.consume();
+				}
+				break;
             case SoundEffectID.SHADOW_VEIL_FADE:
-                if (config.muteShadowVeilSounds()) {
+                if (config.muteVeilFadeSound()) {
                     soundEffect.consume();
                 }
                 break;

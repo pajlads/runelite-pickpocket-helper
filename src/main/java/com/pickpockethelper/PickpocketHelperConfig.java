@@ -57,13 +57,25 @@ public interface PickpocketHelperConfig extends Config
 	}
 
 	@ConfigItem(
-		keyName = "muteShadowVeilSounds",
-		name = "Mute Shadow Veil Sounds",
-		description = "Mute sounds caused by Shadow Veil when it activates or fades.",
+		keyName = "muteVeilActivateSound",
+		name = "Mute Shadow Veil Activate",
+		description = "Mute sounds caused by Shadow Veil activating.",
 		position = 3,
 		section = soundSection
 	)
-	default boolean muteShadowVeilSounds()
+	default boolean muteVeilActivateSound()
+	{
+		return false;
+	}
+
+	@ConfigItem(
+		keyName = "muteVeilFadeSound",
+		name = "Mute Shadow Veil Fade",
+		description = "Mute sounds caused by Shadow Veil fading.",
+		position = 4,
+		section = soundSection
+	)
+	default boolean muteVeilFadeSound()
 	{
 		return false;
 	}
