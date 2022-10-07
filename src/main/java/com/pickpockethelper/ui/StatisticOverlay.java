@@ -36,6 +36,10 @@ public class StatisticOverlay extends OverlayPanel {
             return null;
         }
 
+		if(!session.isPickpocketing(Duration.ofSeconds(30))) {
+			return null;
+		}
+
         Integer failCount = session.getPickpocketFailCount();
         Integer successCount = session.getPickpocketSuccessCount();
         int totalCount = failCount + successCount;

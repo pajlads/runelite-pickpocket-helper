@@ -3,6 +3,7 @@ package com.pickpockethelper.ui;
 import com.pickpockethelper.PickpocketHelperConfig;
 import com.pickpockethelper.PickpocketHelperPlugin;
 import com.pickpockethelper.entity.Session;
+import java.time.Duration;
 import net.runelite.api.Player;
 import net.runelite.client.ui.overlay.OverlayPanel;
 import net.runelite.client.ui.overlay.OverlayPosition;
@@ -35,6 +36,10 @@ public class SplasherOverlay extends OverlayPanel {
         if(session.getLastPickpocketAttempt() == null || !config.enableSplasherOverlay()) {
             return null;
         }
+
+		if(!session.isPickpocketing(Duration.ofSeconds(30))) {
+			return null;
+		}
 
         Player player = session.getSplasher().getPlayer();
         if(player == null) {

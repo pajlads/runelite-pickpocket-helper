@@ -35,7 +35,11 @@ public class StatusOverlay extends OverlayPanel {
             return null;
         }
 
-        if(session.isPickpocketing(Duration.ofSeconds(2))) {
+		if(!session.isPickpocketing(Duration.ofSeconds(30))) {
+			return null;
+		}
+
+        if(session.isPickpocketing(Duration.ofSeconds(6))) {
             panelComponent.getChildren().add(TitleComponent.builder()
                     .text("Pickpocketing")
                     .color(Color.GREEN)
