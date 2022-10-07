@@ -86,7 +86,6 @@ public class PickpocketHelperPlugin extends Plugin {
     private void setupMessageTriggers() {
         messageTriggers.put(MessagePattern.DODGY_NECKLACE_BREAK_PATTERN, this::onDodgyNecklaceBreak);
         messageTriggers.put(MessagePattern.STUN_PATTERN, this::onStun);
-        messageTriggers.put(MessagePattern.PICKPOCKET_ATTEMPT_PATTERN, this::onPickpocketAttempt);
         messageTriggers.put(MessagePattern.SHADOW_VEIL_FADE_PATTERN, this::onShadowVeilFade);
         messageTriggers.put(MessagePattern.PICKPOCKET_SUCCEED_PATTERN, this::onPickpocketSuccess);
         messageTriggers.put(MessagePattern.PICKPOCKET_FAIL_PATTERN, this::onPickpocketFail);
@@ -215,21 +214,28 @@ public class PickpocketHelperPlugin extends Plugin {
         checkAndMuteSoundEffect(soundEffect);
     }
 
+	@Subscribe
+	public void onMenuOptionClicked(MenuOptionClicked menuOptionClicked) {
+		checkAndUpdatePickpocketAttempt(menuOptionClicked);
+	}
 
-    private void onPickpocketAttempt() {
-        session.updateLastPickpocketAttempt();
-        session.getSplasher().updateIsAttacking();
+    private void checkAndUpdatePickpocketAttempt(MenuOptionClicked menuOptionClicked) {
+		if (!menuOptionClicked.getMenuOption().equalsIgnoreCase("Pickpocket")) {
+			return;
+		}
+
+		session.getTarget().setNpc(menuOptionClicked.getMenuEntry().getNpc());
+		session.updateLastPickpocketAttempt();
+		session.getSplasher().updateIsAttacking();
     }
 
     private void onPickpocketSuccess() {
         session.updateLastPickpocketSuccess();
-        checkAndUpdatePickpocketTarget();
         session.increasePickpocketSuccessCount();
         checkAndNotifyRogueEquipment();
     }
 
     private void onPickpocketFail() {
-        checkAndUpdatePickpocketTarget();
         session.increasePickpocketFailCount();
     }
 
@@ -496,32 +502,6 @@ public class PickpocketHelperPlugin extends Plugin {
         } else {
             session.getSplasher().updatePlayer(player);
         }
-    }
-
-    /**
-     * Check if the player is pickpocketing and, if so, store their target.
-     */
-    private void checkAndUpdatePickpocketTarget() {
-        if (client.getGameState() != GameState.LOGGED_IN) {
-            return;
-        }
-
-        Actor target = client.getLocalPlayer().getInteracting();
-
-        if (!(target instanceof NPC)) {
-            return;
-        }
-
-        NPC npc = (NPC) target;
-        if (session.getTarget().getNpc() != null && session.isTarget(npc)) {
-            return;
-        }
-
-        if (!Helper.canPickpocket(npc) || !session.isPickpocketing(Duration.ofSeconds(3))) {
-            return;
-        }
-
-        session.getTarget().setNpc(npc);
     }
 
 
