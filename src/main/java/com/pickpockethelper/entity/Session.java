@@ -43,9 +43,6 @@ public class Session {
         splasher = new Splasher();
     }
 
-    /**
-     * Resets
-     */
     public void updateLastPickpocketAttempt(){
         this.lastPickpocketAttempt = Instant.now();
         lastPickpocketAttemptListeners.forEach(Runnable::run);
