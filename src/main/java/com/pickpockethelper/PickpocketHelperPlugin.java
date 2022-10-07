@@ -527,10 +527,15 @@ public class PickpocketHelperPlugin extends Plugin {
 
     /**
      * Check if the provided sound effect is muted by the player and, if so, interrupt it from being played.
+	 * Only interrupts sounds when the session is active.
      *
      * @param soundEffect the to-be-played sound effect to check and mute.
      */
     private void checkAndMuteSoundEffect(SoundEffectPlayed soundEffect) {
+		if (!session.isActive()) {
+			return;
+		}
+
         switch (soundEffect.getSoundId()) {
             // Block fail sound
             case com.pickpockethelper.utility.SoundEffectID.PICKPOCKET_FAIL:

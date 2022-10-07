@@ -1,5 +1,6 @@
 package com.pickpockethelper;
 
+import com.pickpockethelper.entity.Session;
 import com.pickpockethelper.utility.AlertID;
 import com.pickpockethelper.utility.AlertType;
 import net.runelite.client.chat.ChatColorType;
@@ -19,6 +20,9 @@ public class AlertManager {
     @Inject
     private AudioManager audioManager;
 
+	@Inject
+	private Session session;
+
     @Inject
     private PickpocketHelperConfig config;
 
@@ -36,11 +40,15 @@ public class AlertManager {
     }
 
     /**
-     * Send an alert to the player.
+     * Send an alert to the player. Only sends alerts while the session is active.
      * @param alertId alert to be executed.
      * @param includeChatMessage whether to include a chat message.
      */
     public void sendAlert(int alertId, boolean includeChatMessage) {
+		if (!session.isActive()) {
+			return;
+		}
+
         AlertType type = config.getAlertType();
 
         if(type == AlertType.CHAT_MESSAGE || includeChatMessage) {

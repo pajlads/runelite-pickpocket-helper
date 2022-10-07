@@ -102,6 +102,14 @@ public class Session {
         return lastPickpocketAttempt.plus(delay).isAfter(Instant.now());
     }
 
+	/**
+	 * Determine if the current session is still active.
+	 * A session deactivates after 5 minutes of no pickpoceting.
+	 */
+	public boolean isActive() {
+		return this.isPickpocketing(Duration.ofSeconds(300));
+	}
+
     /**
      * Determine if the given actor is the player's target.
      *
