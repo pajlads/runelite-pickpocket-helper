@@ -1,6 +1,7 @@
 package com.pickpockethelper.entity;
 
 import com.pickpockethelper.utility.Helper;
+import java.util.Objects;
 import lombok.Getter;
 import net.runelite.api.NPC;
 import net.runelite.api.coords.WorldPoint;
@@ -34,8 +35,14 @@ public class Target {
             return;
         }
 
+		boolean similarTarget = this.npc != null && (this.npc.getIndex() == npc.getIndex() || Objects.equals(npc.getName(), this.npc.getName()));
+
         this.npc = npc;
         this.lastLocation = npc.getWorldLocation();
+
+		if(!similarTarget) {
+			session.reset();
+		}
 
         npcListeners.forEach(Runnable::run);
     }

@@ -78,7 +78,6 @@ public class Session {
     }
 
     private void onTargetChange() {
-        reset();
         sessionStart = Instant.now();
     }
 
