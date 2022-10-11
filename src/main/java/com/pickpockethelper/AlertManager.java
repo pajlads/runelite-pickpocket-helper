@@ -35,8 +35,8 @@ public class AlertManager {
         messages.put(AlertID.TARGET_DESPAWN, "Your target is about to de-spawn!");
         messages.put(AlertID.ROGUE_SET_INCOMPLETE, "You are not wearing the full rogue set!");
         messages.put(AlertID.SPLASHER_IDLE, "Your target is no longer being splashed!");
-        messages.put(AlertID.PLAYER_IDLE, "You are no longer pickpocking!");
-        messages.put(AlertID.NO_INVENTORY_SPACE, "There is no space for new pouches!");
+        messages.put(AlertID.PLAYER_IDLE, "You are no longer pickpocketing!");
+        messages.put(AlertID.NO_INVENTORY_SPACE, "There is no space for your loot!");
     }
 
     /**
