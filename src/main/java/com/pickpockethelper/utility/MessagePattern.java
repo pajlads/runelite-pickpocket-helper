@@ -15,5 +15,6 @@ public final class MessagePattern {
     public static final String INVENTORY_FULL_PATTERN = "You don't have enough inventory space to do that\\.";
     public static final String SHADOW_VEIL_ACTIVATE_PATTERN = "Your thieving abilities have been enhanced\\.";
     public static final String SHADOW_VEIL_FADE_PATTERN = "Your Shadow Veil has faded away\\.";
-	public static final String NO_SPACE_PATTERN = "You need to empty your coin pouches before you can continue pickpocketing\\.";
+	public static final String EMPTY_POUCHES_PATTERN = "You need to empty your coin pouches before you can continue pickpocketing\\.";
+	public static final String NO_SPACE_PATTERN = "You have no space in your inventory for your loot\\.";
 }
