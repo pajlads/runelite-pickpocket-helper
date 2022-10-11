@@ -103,10 +103,10 @@ public class Session {
 
 	/**
 	 * Determine if the current session is still active.
-	 * A session deactivates after 5 minutes of no pickpoceting.
+	 * A session deactivates after 2 minutes of no pickpocketing.
 	 */
 	public boolean isActive() {
-		return this.isPickpocketing(Duration.ofSeconds(300));
+		return this.isPickpocketing(Duration.ofSeconds(120));
 	}
 
     /**
