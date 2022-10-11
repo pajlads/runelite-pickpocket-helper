@@ -97,6 +97,7 @@ public class PickpocketHelperPlugin extends Plugin {
         messageTriggers.put(MessagePattern.PICKPOCKET_ROGUE_EQUIPMENT_PATTERN, this::onRogueEquipmentProc);
         messageTriggers.put(MessagePattern.POUCHES_FULL_PATTERN, this::onPouchesFull);
         messageTriggers.put(MessagePattern.INVENTORY_FULL_PATTERN, this::onInventoryFull);
+		messageTriggers.put(MessagePattern.NO_SPACE_PATTERN, this::onInventoryFull);
     }
 
     /**
