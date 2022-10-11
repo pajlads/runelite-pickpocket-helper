@@ -39,7 +39,8 @@ import java.util.regex.Pattern;
 public class PickpocketHelperPlugin extends Plugin {
     private static final HashMap<String, Runnable> messageTriggers = new HashMap<>();
 	private static final Set<String> blockedPatterns = ImmutableSet.of(
-		MessagePattern.NO_SPACE_PATTERN
+		MessagePattern.NO_SPACE_PATTERN,
+		MessagePattern.EMPTY_POUCHES_PATTERN
 	);
 
     @Inject
