@@ -543,11 +543,14 @@ public class PickpocketHelperPlugin extends Plugin {
             // Block fail sound
             case com.pickpockethelper.utility.SoundEffectID.PICKPOCKET_FAIL:
             // Block damage sounds
-            case com.pickpockethelper.utility.SoundEffectID.TAKE_DAMAGE_ONE:
-            case com.pickpockethelper.utility.SoundEffectID.TAKE_DAMAGE_TWO:
-            case com.pickpockethelper.utility.SoundEffectID.TAKE_DAMAGE_THREE:
-            case com.pickpockethelper.utility.SoundEffectID.TAKE_DAMAGE_FOUR:
-
+            case com.pickpockethelper.utility.SoundEffectID.HUMAN_TAKE_DAMAGE_ONE:
+            case com.pickpockethelper.utility.SoundEffectID.HUMAN_TAKE_DAMAGE_TWO:
+            case com.pickpockethelper.utility.SoundEffectID.HUMAN_TAKE_DAMAGE_THREE:
+            case com.pickpockethelper.utility.SoundEffectID.HUMAN_TAKE_DAMAGE_FOUR:
+            case com.pickpockethelper.utility.SoundEffectID.HUMAN_TAKE_DAMAGE_SIX:
+            case com.pickpockethelper.utility.SoundEffectID.HUMAN_TAKE_DAMAGE_SEVEN:
+			case com.pickpockethelper.utility.SoundEffectID.FEMALE_TAKE_DAMAGE_ONE:
+			case com.pickpockethelper.utility.SoundEffectID.FEMALE_TAKE_DAMAGE_TWO:
                 if (config.muteFailSounds()) {
                     soundEffect.consume();
                 }
