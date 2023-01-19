@@ -10,7 +10,9 @@ public final class MessagePattern {
     public static final String PICKPOCKET_SUCCEED_PATTERN = "You pick .*\\ pocket\\.";
     public static final String PICKPOCKET_FAIL_PATTERN = "You fail to pick .*\\ pocket\\.";
     public static final String PICKPOCKET_ROGUE_EQUIPMENT_PATTERN = "Your rogue clothing allows you to steal twice as much loot!";
-    public static final String STUN_PATTERN = "You've been stunned!";
+    public static final String GLOVES_OF_SILENCE_BREAKING_PATTERN = "Your gloves of silence are going to fall apart!";
+
+	public static final String STUN_PATTERN = "You've been stunned!";
     public static final String POUCHES_FULL_PATTERN = "You need to empty your coin pouches before you can continue pickpocketing\\.";
     public static final String INVENTORY_FULL_PATTERN = "You don't have enough inventory space to do that\\.";
     public static final String SHADOW_VEIL_ACTIVATE_PATTERN = "Your thieving abilities have been enhanced\\.";

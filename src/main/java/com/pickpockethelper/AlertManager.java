@@ -37,6 +37,7 @@ public class AlertManager {
         messages.put(AlertID.SPLASHER_IDLE, "Your target is no longer being splashed!");
         messages.put(AlertID.PLAYER_IDLE, "You are no longer pickpocketing!");
         messages.put(AlertID.NO_INVENTORY_SPACE, "There is no space for your loot!");
+		messages.put(AlertID.GLOVES_BREAK, "Your gloves of silence are about to break!");
     }
 
     /**
@@ -55,13 +56,13 @@ public class AlertManager {
             feedbackManager.sendChatMessage(messages.get(alertId), ChatColorType.HIGHLIGHT);
         }
 
-        switch (type) {
-            case NOTIFICATION:
-                feedbackManager.sendNotification(messages.get(alertId), false);
-                break;
-            case SPEECH:
-                audioManager.play(alertId);
-                break;
-        }
+		boolean audioSuccess = true;
+		if(type == AlertType.SPEECH) {
+			audioSuccess = audioManager.play(alertId);
+		}
+
+		if(type == AlertType.NOTIFICATION || !audioSuccess) {
+			feedbackManager.sendNotification(messages.get(alertId), false);
+		}
     }
 }

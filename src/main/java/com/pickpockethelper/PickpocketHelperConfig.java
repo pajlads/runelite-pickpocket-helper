@@ -174,10 +174,22 @@ public interface PickpocketHelperConfig extends Config
 	}
 
 	@ConfigItem(
+		keyName = "enableGlovesNotification",
+		name = "Gloves of Silence Breaking",
+		description = "Enable being notified when your gloves of silence are about to break.",
+		position = 6,
+		section = alertSection
+	)
+	default boolean enableGlovesNotification()
+	{
+		return false;
+	}
+
+	@ConfigItem(
 		keyName = "enableRogueEquipmentNotification",
 		name = "Missing Rogue Equipment",
 		description = "Enable being notified when pickpocketing while missing one or more pieces of rogue equipment.",
-		position = 6,
+		position = 7,
 		section = alertSection
 	)
 	default boolean enableRogueEquipmentNotification()
@@ -189,7 +201,7 @@ public interface PickpocketHelperConfig extends Config
 		keyName = "enableShadowVeilNotification",
 		name = "Shadow Veil Fading",
 		description = "Enable being notified when the Shadow Veil spell fades. Only recommended when you have veil sounds muted.",
-		position = 7,
+		position = 8,
 		section = alertSection
 	)
 	default boolean enableShadowVeilNotification()
@@ -201,7 +213,7 @@ public interface PickpocketHelperConfig extends Config
 		keyName = "enableNoSpaceNotification",
 		name = "No Space",
 		description = "Enable being notified when there is no space for new pouches. Only recommended when you have pouch sounds muted.",
-		position = 8,
+		position = 9,
 		section = alertSection
 	)
 	default boolean enableNoSpaceNotification()
@@ -213,7 +225,7 @@ public interface PickpocketHelperConfig extends Config
 		keyName = "muteChatMessages",
 		name = "Mute Chat Messages",
 		description = "Disable chat messages that are send accompanying notification- and voice alerts.",
-		position = 9,
+		position = 10,
 		section = alertSection
 	)
 	default boolean muteChatMessages()

@@ -24,18 +24,19 @@ public class AudioManager {
      * If the clip is already running it does nothing.
      * @param alertId alert to be played.
      */
-    public void play(int alertId) {
+    public boolean play(int alertId) {
         if (!clips.containsKey(alertId)) {
             log.debug("Clip doesn't exist: " + alertId);
-            return;
+            return false;
         }
 
         Clip clip = clips.get(alertId);
         if(clip.isRunning()) {
-            return;
+            return true;
         }
         clip.setFramePosition(0);
         clip.start();
+		return true;
     }
 
     public void init() {
