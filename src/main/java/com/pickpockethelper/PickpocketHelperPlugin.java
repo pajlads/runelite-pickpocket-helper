@@ -40,7 +40,8 @@ public class PickpocketHelperPlugin extends Plugin {
     private static final HashMap<String, Runnable> messageTriggers = new HashMap<>();
 	private static final Set<String> blockedPatterns = ImmutableSet.of(
 		MessagePattern.NO_SPACE_PATTERN,
-		MessagePattern.EMPTY_POUCHES_PATTERN
+		MessagePattern.EMPTY_POUCHES_PATTERN,
+		MessagePattern.CANT_REACH_PATTERN
 	);
 
     @Inject
@@ -98,6 +99,7 @@ public class PickpocketHelperPlugin extends Plugin {
         messageTriggers.put(MessagePattern.POUCHES_FULL_PATTERN, this::onPouchesFull);
         messageTriggers.put(MessagePattern.INVENTORY_FULL_PATTERN, this::onInventoryFull);
 		messageTriggers.put(MessagePattern.NO_SPACE_PATTERN, this::onInventoryFull);
+		messageTriggers.put(MessagePattern.GLOVES_OF_SILENCE_BREAKING_PATTERN, this::onGlovesBreak);
     }
 
     /**
@@ -300,6 +302,9 @@ public class PickpocketHelperPlugin extends Plugin {
         notifyShadowVeilFade();
     }
 
+	private void onGlovesBreak() {
+
+	}
     private void onDodgyNecklaceBreak() {
         notifyNecklaceBreak();
     }
@@ -421,6 +426,16 @@ public class PickpocketHelperPlugin extends Plugin {
         alertManager.sendAlert(AlertID.NO_INVENTORY_SPACE, false);
     }
 
+	/**
+	 * Notify the player that their gloves of silence are about to break.
+	 */
+	private void notifyGlovesBreak() {
+		if(!config.enableGlovesNotification()) {
+			return;
+		}
+
+		alertManager.sendAlert(AlertID.GLOVES_BREAK, false);
+	}
     /**
      * Notify the player that their dodgy necklace broke.
      */
