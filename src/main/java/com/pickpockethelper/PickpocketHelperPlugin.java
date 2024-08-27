@@ -303,8 +303,9 @@ public class PickpocketHelperPlugin extends Plugin {
     }
 
 	private void onGlovesBreak() {
-
+        notifyGlovesBreak();
 	}
+
     private void onDodgyNecklaceBreak() {
         notifyNecklaceBreak();
     }
