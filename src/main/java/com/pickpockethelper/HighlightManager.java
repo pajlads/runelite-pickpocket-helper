@@ -8,6 +8,8 @@ import net.runelite.client.game.npcoverlay.NpcOverlayService;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
 
 /**
  * Simplifies interaction with Runelite's overlay service.
@@ -20,15 +22,23 @@ public class HighlightManager {
 
     private final NpcOverlayService npcOverlayService;
 
-    private final HashMap<NPC, HighlightedNpc> targets = new HashMap<>();
+    private final Map<NPC, HighlightedNpc> targets = new HashMap<>();
+    private final Function<NPC, HighlightedNpc> isTarget = targets::get;
 
     @Inject
     public HighlightManager(PickpocketHelperConfig config, NpcOverlayService npcOverlayService, ClientThread clientThread) {
         this.config = config;
         this.npcOverlayService = npcOverlayService;
-        npcOverlayService.registerHighlighter(targets::get);
 
         clientThread.invoke(this::refresh);
+    }
+
+    public void register() {
+        npcOverlayService.registerHighlighter(isTarget);
+    }
+
+    public void unregister() {
+        npcOverlayService.unregisterHighlighter(isTarget);
     }
 
     /**
