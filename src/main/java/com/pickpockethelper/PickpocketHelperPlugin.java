@@ -392,13 +392,13 @@ public class PickpocketHelperPlugin extends Plugin {
         int[] equipedGearIds = client.getLocalPlayer().getPlayerComposition().getEquipmentIds();
         HashSet<Integer> adjustedGearIds = new HashSet<>();
         for (int equipmentId : equipedGearIds) {
-            // Only values above 512 are items.
-            if (equipmentId < 512) {
+            // Only values above 2048 are items.
+            if (equipmentId < PlayerComposition.ITEM_OFFSET) {
                 continue;
             }
 
             // For some reason, the ids need to be adjusted.
-            adjustedGearIds.add(equipmentId - 512);
+            adjustedGearIds.add(equipmentId - PlayerComposition.ITEM_OFFSET);
         }
 
         final Set<Integer> rogueEquipmentIds = new HashSet<>(Arrays.asList(
