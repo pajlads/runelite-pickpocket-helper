@@ -147,6 +147,7 @@ public class PickpocketHelperPlugin extends Plugin {
         overlayManager.add(statisticOverlay);
         overlayManager.add(timerOverlay);
         audioManager.init();
+        highlightManager.register();
         hooks.registerRenderableDrawListener(this::shouldRenderEntity);
     }
 
@@ -154,6 +155,7 @@ public class PickpocketHelperPlugin extends Plugin {
     protected void shutDown() {
         hooks.unregisterRenderableDrawListener(this::shouldRenderEntity);
         highlightManager.clearTargets();
+        highlightManager.unregister();
         overlayManager.remove(statusOverlay);
         overlayManager.remove(splasherOverlay);
         overlayManager.remove(statisticOverlay);
