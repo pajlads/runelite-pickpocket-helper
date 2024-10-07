@@ -7,7 +7,7 @@ import net.runelite.client.game.npcoverlay.NpcOverlayService;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.HashMap;
+import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -22,7 +22,7 @@ public class HighlightManager {
 
     private final NpcOverlayService npcOverlayService;
 
-    private final Map<NPC, HighlightedNpc> targets = new HashMap<>();
+    private final Map<NPC, HighlightedNpc> targets = new IdentityHashMap<>();
     private final Function<NPC, HighlightedNpc> isTarget = targets::get;
 
     @Inject
@@ -62,16 +62,6 @@ public class HighlightManager {
         this.refresh();
     }
 
-    public void removeTarget(NPC target) {
-        targets.remove(target);
-        this.refresh();
-    }
-
-    public void replaceTarget(NPC oldTarget, NPC newTarget){
-        targets.remove(oldTarget);
-        addTarget(newTarget);
-    }
-
     public void clearTargets() {
         targets.clear();
         this.refresh();
@@ -81,10 +71,8 @@ public class HighlightManager {
      * Refresh currently highlighted targets.
      * This needs to happen after, for example, the configuration changes.
      */
-    public void refresh(){
-        targets.keySet().forEach(npc -> {
-            targets.replace(npc, highLightNpc(npc));
-        });
+    public void refresh() {
+        targets.replaceAll((npc, v) -> highLightNpc(npc));
         npcOverlayService.rebuild();
     }
 }
