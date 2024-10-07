@@ -2,40 +2,27 @@ package com.pickpockethelper.entity;
 
 import lombok.Getter;
 import net.runelite.api.Actor;
-import net.runelite.api.NPC;
 
 import javax.inject.Singleton;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * The currently ongoing streak of pickpocketing a specific target.
  * Keeps track of the pickpocket target, potential splashers, and relevant events and stats.
  */
+@Getter
 @Singleton
 public class Session {
-    @Getter
     private final Target target;
-    @Getter
     private final Splasher splasher;
-    @Getter
     private Instant lastPickpocketAttempt;
-    private final List<Runnable> lastPickpocketAttemptListeners = new ArrayList<>();
-    @Getter
     private Instant lastPickpocketSuccess;
-    @Getter
     private Instant lastPlayerIdleNotify;
-    @Getter
     private Instant lastRogueEquipmentProc;
-    @Getter
     private Instant lastStun;
-    @Getter
-    private Integer pickpocketSuccessCount = 0;
-    @Getter
-    private Integer pickpocketFailCount = 0;
-    @Getter
+    private int pickpocketSuccessCount = 0;
+    private int pickpocketFailCount = 0;
     private Instant sessionStart;
 
     public Session() {
@@ -45,14 +32,12 @@ public class Session {
 
     public void updateLastPickpocketAttempt(){
         this.lastPickpocketAttempt = Instant.now();
-        lastPickpocketAttemptListeners.forEach(Runnable::run);
     }
 
-    public void addLastPickpocketAttemptListener(Runnable runnable) {
-        lastPickpocketAttemptListeners.add(runnable);
+    public void updateLastPlayerIdleNotify() {
+        this.lastPlayerIdleNotify = Instant.now();
     }
 
-    public void updateLastPlayerIdleNotify() { this.lastPlayerIdleNotify = Instant.now();}
     public void updateLastPickpocketSuccess() {
         this.lastPickpocketSuccess = Instant.now();
     }
@@ -115,11 +100,7 @@ public class Session {
      * @param actor the actor being checked.
      */
     public boolean isTarget(Actor actor) {
-        if(target.getNpc() == null || !(actor instanceof NPC)) {
-            return false;
-        }
-
-        return target.getNpc().equals(actor);
+        return actor != null && actor == target.getNpc();
     }
 
     public void reset() {
@@ -134,10 +115,8 @@ public class Session {
     }
 
     public void clear() {
-        lastPickpocketAttemptListeners.clear();
         splasher.clear();
         target.clear();
-
         reset();
     }
 }
