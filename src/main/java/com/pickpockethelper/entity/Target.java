@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Target {
+    private static final int DEFAULT_DESPAWN_TIME = 300;
+    private static final int ARDY_KNIGHT_DESPAWN_TIME = 600;
+
     private final Session session;
 
     @Getter
@@ -59,19 +62,21 @@ public class Target {
     public void addNpcListener(Runnable runnable) {
         npcListeners.add(runnable);
     }
+
     public boolean isRendered() {
         return Helper.isRendered(npc);
     }
 
     public int getSecondsBeforeDespawn() {
-        if(lastMove == null) {
+        if (lastMove == null) {
             return -1;
         }
+        int despawnTime = isArdyKnight() ? ARDY_KNIGHT_DESPAWN_TIME : DEFAULT_DESPAWN_TIME;
         int secondsSinceLastMove = Helper.secondsSince(lastMove);
         Integer secondsSinceLastAttackReceived = (session.getSplasher().getLastAttack() != null) ? Helper.secondsSince(session.getSplasher().getLastAttack()) : null;
-        int secondsBeforeDespawn = (secondsSinceLastAttackReceived == null || secondsSinceLastMove < secondsSinceLastAttackReceived) ? 300 - secondsSinceLastMove : 300 - secondsSinceLastAttackReceived;
+        int secondsBeforeDespawn = (secondsSinceLastAttackReceived == null || secondsSinceLastMove < secondsSinceLastAttackReceived) ? despawnTime - secondsSinceLastMove : despawnTime - secondsSinceLastAttackReceived;
 
-        if (secondsBeforeDespawn == 300) {
+        if (secondsBeforeDespawn == despawnTime) {
             lastDespawnNotify = null;
         }
 
@@ -85,5 +90,9 @@ public class Target {
         lastLocation = null;
         lastMove = null;
         lastDespawnNotify = null;
+    }
+
+    private boolean isArdyKnight() {
+        return npc != null && "Knight of Ardougne".equals(npc.getName());
     }
 }
