@@ -6,8 +6,9 @@ import com.pickpockethelper.ui.SplasherOverlay;
 import com.pickpockethelper.ui.StatisticOverlay;
 import com.pickpockethelper.ui.StatusOverlay;
 import com.pickpockethelper.ui.TimerOverlay;
-import com.pickpockethelper.utility.*;
+import com.pickpockethelper.utility.AlertID;
 import com.pickpockethelper.utility.AnimationID;
+import com.pickpockethelper.utility.MessagePattern;
 import com.pickpockethelper.utility.SoundEffectID;
 import com.google.inject.Provides;
 import lombok.extern.slf4j.Slf4j;
@@ -37,12 +38,25 @@ import java.util.regex.Pattern;
         tags = {"thieving", "pickpocketing", "ardy", "knights", "master", "farmer", "vyres"}
 )
 public class PickpocketHelperPlugin extends Plugin {
-    private static final HashMap<String, Runnable> messageTriggers = new HashMap<>();
-	private static final Set<String> blockedPatterns = ImmutableSet.of(
-		MessagePattern.NO_SPACE_PATTERN,
-		MessagePattern.EMPTY_POUCHES_PATTERN,
-		MessagePattern.CANT_REACH_PATTERN
-	);
+    private static final Map<Pattern, Runnable> messageTriggers = new LinkedHashMap<>();
+    private static final Set<Pattern> blockedPatterns = ImmutableSet.of(
+            Pattern.compile(MessagePattern.NO_SPACE_PATTERN),
+            Pattern.compile(MessagePattern.EMPTY_POUCHES_PATTERN),
+            Pattern.compile(MessagePattern.CANT_REACH_PATTERN)
+    );
+    private static final Set<Integer> splashAnimations = Set.of(
+            AnimationID.ATTACK_MAGE_IBAN,
+            AnimationID.ATTACK_MAGE_STANDARD,
+            AnimationID.ATTACK_MAGE_WAVE,
+            AnimationID.ATTACK_MAGE_SURGE
+    );
+    private static final Set<Integer> rogueEquipmentIds = Set.of(
+            ItemID.ROGUE_BOOTS,
+            ItemID.ROGUE_GLOVES,
+            ItemID.ROGUE_MASK,
+            ItemID.ROGUE_TOP,
+            ItemID.ROGUE_TROUSERS
+    );
 
     @Inject
     private PickpocketHelperConfig config;
@@ -90,16 +104,20 @@ public class PickpocketHelperPlugin extends Plugin {
      * Setup methods that will trigger based on incoming chat messages.
      */
     private void setupMessageTriggers() {
-        messageTriggers.put(MessagePattern.DODGY_NECKLACE_BREAK_PATTERN, this::onDodgyNecklaceBreak);
-        messageTriggers.put(MessagePattern.STUN_PATTERN, this::onStun);
-        messageTriggers.put(MessagePattern.SHADOW_VEIL_FADE_PATTERN, this::onShadowVeilFade);
-        messageTriggers.put(MessagePattern.PICKPOCKET_SUCCEED_PATTERN, this::onPickpocketSuccess);
-        messageTriggers.put(MessagePattern.PICKPOCKET_FAIL_PATTERN, this::onPickpocketFail);
-        messageTriggers.put(MessagePattern.PICKPOCKET_ROGUE_EQUIPMENT_PATTERN, this::onRogueEquipmentProc);
-        messageTriggers.put(MessagePattern.POUCHES_FULL_PATTERN, this::onPouchesFull);
-        messageTriggers.put(MessagePattern.INVENTORY_FULL_PATTERN, this::onInventoryFull);
-		messageTriggers.put(MessagePattern.NO_SPACE_PATTERN, this::onInventoryFull);
-		messageTriggers.put(MessagePattern.GLOVES_OF_SILENCE_BREAKING_PATTERN, this::onGlovesBreak);
+        registerMessageTrigger(MessagePattern.DODGY_NECKLACE_BREAK_PATTERN, this::onDodgyNecklaceBreak);
+        registerMessageTrigger(MessagePattern.STUN_PATTERN, this::onStun);
+        registerMessageTrigger(MessagePattern.SHADOW_VEIL_FADE_PATTERN, this::onShadowVeilFade);
+        registerMessageTrigger(MessagePattern.PICKPOCKET_SUCCEED_PATTERN, this::onPickpocketSuccess);
+        registerMessageTrigger(MessagePattern.PICKPOCKET_FAIL_PATTERN, this::onPickpocketFail);
+        registerMessageTrigger(MessagePattern.PICKPOCKET_ROGUE_EQUIPMENT_PATTERN, this::onRogueEquipmentProc);
+        registerMessageTrigger(MessagePattern.POUCHES_FULL_PATTERN, this::onPouchesFull);
+        registerMessageTrigger(MessagePattern.INVENTORY_FULL_PATTERN, this::onInventoryFull);
+        registerMessageTrigger(MessagePattern.NO_SPACE_PATTERN, this::onInventoryFull);
+        registerMessageTrigger(MessagePattern.GLOVES_OF_SILENCE_BREAKING_PATTERN, this::onGlovesBreak);
+    }
+
+    private void registerMessageTrigger(String regex, Runnable action) {
+        messageTriggers.put(Pattern.compile(regex), action);
     }
 
     /**
@@ -161,29 +179,37 @@ public class PickpocketHelperPlugin extends Plugin {
         overlayManager.remove(statisticOverlay);
         overlayManager.remove(timerOverlay);
         audioManager.clear();
-
+        messageTriggers.clear();
         session.clear();
+    }
+
+    @Override
+    public void resetConfiguration() {
+        overlayManager.resetOverlay(statisticOverlay);
+        overlayManager.resetOverlay(statusOverlay);
+        overlayManager.resetOverlay(splasherOverlay);
+        overlayManager.resetOverlay(timerOverlay);
     }
 
     @Subscribe
     public void onGameStateChanged(GameStateChanged change) {
         switch (change.getGameState()) {
+            case CONNECTION_LOST:
+            case HOPPING:
             case LOGIN_SCREEN:
                 session.clear();
                 highlightManager.clearTargets();
                 break;
-            case LOGGED_IN:
-                highlightManager.refresh();
         }
     }
 
     @Subscribe
     public void onConfigChanged(ConfigChanged configChanged) {
-        if (configChanged.getGroup().equals("pickpockethelper")) {
+        if (!"pickpockethelper".equals(configChanged.getGroup()) || configChanged.getNewValue() == null) {
+            return;
+        }
+        if (HighlightManager.CONFIG_DEPENDENCIES.contains(configChanged.getKey())) {
             highlightManager.refresh();
-            overlayManager.resetOverlay(statisticOverlay);
-            overlayManager.resetOverlay(statusOverlay);
-            overlayManager.resetOverlay(splasherOverlay);
         }
     }
 
@@ -193,8 +219,7 @@ public class PickpocketHelperPlugin extends Plugin {
     }
 
 	@Subscribe
-	public void onScriptCallbackEvent(ScriptCallbackEvent event)
-	{
+	public void onScriptCallbackEvent(ScriptCallbackEvent event) {
 		if (!config.enableBlockSpam() || !"chatFilterCheck".equals(event.getEventName())) {
 			return;
 		}
@@ -202,12 +227,13 @@ public class PickpocketHelperPlugin extends Plugin {
 		String message = client.getStringStack()[client.getStringStackSize() - 1];
 		String content = Text.removeTags(message);
 
-		blockedPatterns.forEach((pattern) -> {
-			if (Pattern.compile(pattern).matcher(content).find()) {
-				client.getIntStack()[client.getIntStackSize() - 3] = 0;
-			}
-		});
-	}
+        for (Pattern pattern : blockedPatterns) {
+            if (pattern.matcher(content).find()) {
+                client.getIntStack()[client.getIntStackSize() - 3] = 0;
+                break;
+            }
+        }
+    }
 
 	@Subscribe
     private void onHitsplatApplied(HitsplatApplied hitsplatApplied) {
@@ -392,31 +418,24 @@ public class PickpocketHelperPlugin extends Plugin {
             }
         }
 
-        int[] equipedGearIds = client.getLocalPlayer().getPlayerComposition().getEquipmentIds();
-        HashSet<Integer> adjustedGearIds = new HashSet<>();
-        for (int equipmentId : equipedGearIds) {
+        int[] equippedGearIds = client.getLocalPlayer().getPlayerComposition().getEquipmentIds();
+        int rogueCount = 0;
+        for (int equipmentId : equippedGearIds) {
             // Only values above 2048 are items.
             if (equipmentId < PlayerComposition.ITEM_OFFSET) {
                 continue;
             }
 
-            // For some reason, the ids need to be adjusted.
-            adjustedGearIds.add(equipmentId - PlayerComposition.ITEM_OFFSET);
+            int itemId = equipmentId - PlayerComposition.ITEM_OFFSET;
+            if (rogueEquipmentIds.contains(itemId)) {
+                rogueCount++;
+            }
         }
 
-        final Set<Integer> rogueEquipmentIds = new HashSet<>(Arrays.asList(
-                ItemID.ROGUE_BOOTS,
-                ItemID.ROGUE_GLOVES,
-                ItemID.ROGUE_MASK,
-                ItemID.ROGUE_TOP,
-                ItemID.ROGUE_TROUSERS
-        ));
-
-        if (!adjustedGearIds.containsAll(rogueEquipmentIds)) {
+        if (rogueCount < rogueEquipmentIds.size()) {
             alertManager.sendAlert(AlertID.ROGUE_SET_INCOMPLETE, true);
         }
     }
-
 
     /**
      * Notify the player that they try to pickpocket without having space left for the pouch.
@@ -507,11 +526,12 @@ public class PickpocketHelperPlugin extends Plugin {
         }
 
         String content = Text.removeTags(message.getMessage());
-        messageTriggers.forEach((pattern, method) -> {
-            if (Pattern.compile(pattern).matcher(content).find()) {
-                method.run();
+        for (var entry : messageTriggers.entrySet()) {
+            if (entry.getKey().matcher(content).find()) {
+                entry.getValue().run();
+                break;
             }
-        });
+        }
     }
 
     /**
@@ -521,13 +541,6 @@ public class PickpocketHelperPlugin extends Plugin {
      * @param target the target being verified as splasher.
      */
     private void checkAndUpdateSplasher(Actor target) {
-        final Set<Integer> splashAnimations = new HashSet<>(Arrays.asList(
-                AnimationID.ATTACK_MAGE_IBAN,
-                AnimationID.ATTACK_MAGE_STANDARD,
-                AnimationID.ATTACK_MAGE_WAVE,
-                AnimationID.ATTACK_MAGE_SURGE
-        ));
-
         if (client.getGameState() != GameState.LOGGED_IN || !(target instanceof Player)) {
             return;
         }
@@ -544,7 +557,6 @@ public class PickpocketHelperPlugin extends Plugin {
             session.getSplasher().updatePlayer(player);
         }
     }
-
 
     /**
      * Check if the provided sound effect is muted by the player and, if so, interrupt it from being played.
