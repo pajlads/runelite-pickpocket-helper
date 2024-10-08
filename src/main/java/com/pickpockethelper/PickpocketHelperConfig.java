@@ -112,6 +112,19 @@ public interface PickpocketHelperConfig extends Config
 	}
 
 	@ConfigItem(
+		keyName = "volume",
+		name = "Speech Volume",
+		description = "Adjustable volume for Speech Alerts",
+		position = 0,
+		section = alertSection
+	)
+	@Units(Units.PERCENT)
+	@Range(min = 1, max = 100)
+	default int volume() {
+		return 50;
+	}
+
+	@ConfigItem(
 		keyName = "inactiveDelay",
 		name = "Inactive Delay",
 		description = "The delay for being notified after not having picked any pockets. A value of 0 will disable the notification.",
