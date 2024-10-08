@@ -56,6 +56,7 @@ public class Splasher {
         player = null;
         lastIdleNotify = null;
     }
+
     public void clear() {
         isAttackingListeners.clear();
         playerListeners.clear();

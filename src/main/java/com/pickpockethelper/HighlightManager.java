@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.IdentityHashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 
 /**
@@ -17,6 +18,8 @@ import java.util.function.Function;
  */
 @Singleton
 public class HighlightManager {
+
+    static final Set<String> CONFIG_DEPENDENCIES = Set.of("highLightTarget", "npcColor", "fillColor", "borderWidth", "outlineFeather");
 
     private final PickpocketHelperConfig config;
 
