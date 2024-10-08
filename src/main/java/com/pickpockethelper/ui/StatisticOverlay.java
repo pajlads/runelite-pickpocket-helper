@@ -57,10 +57,12 @@ public class StatisticOverlay extends OverlayPanel {
 			.left("Rate:")
 			.right(successRatio +"%")
 			.build());
-		panelComponent.getChildren().add(LineComponent.builder()
-			.left("Per hour:")
-			.right(String.valueOf(perHourCount))
-			.build());
+        if (totalCount > 1) {
+            panelComponent.getChildren().add(LineComponent.builder()
+                    .left("Per hour:")
+                    .right(String.valueOf(perHourCount))
+                    .build());
+        }
 
 		panelComponent.getChildren().add(LineComponent.builder().build());
 

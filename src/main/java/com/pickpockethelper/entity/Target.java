@@ -83,13 +83,16 @@ public class Target {
         return secondsBeforeDespawn;
     }
 
-    public void clear() {
-        npcListeners.clear();
-
+    public void reset() {
         npc = null;
         lastLocation = null;
         lastMove = null;
         lastDespawnNotify = null;
+    }
+
+    public void clear() {
+        npcListeners.clear();
+        reset();
     }
 
     private boolean isArdyKnight() {

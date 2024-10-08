@@ -63,7 +63,9 @@ public class Session {
     }
 
     private void onTargetChange() {
-        sessionStart = Instant.now();
+        if (!isActive()) {
+            sessionStart = Instant.now();
+        }
     }
 
     /**
