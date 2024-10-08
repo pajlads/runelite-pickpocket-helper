@@ -194,10 +194,13 @@ public class PickpocketHelperPlugin extends Plugin {
     @Subscribe
     public void onGameStateChanged(GameStateChanged change) {
         switch (change.getGameState()) {
+            case LOGIN_SCREEN:
+                session.reset();
+                // intentional fall-through
             case CONNECTION_LOST:
             case HOPPING:
-            case LOGIN_SCREEN:
-                session.clear();
+                session.getSplasher().reset();
+                session.getTarget().reset();
                 highlightManager.clearTargets();
                 break;
         }
@@ -547,11 +550,11 @@ public class PickpocketHelperPlugin extends Plugin {
 
         Player player = (Player) target;
 
-        if (!splashAnimations.contains(player.getAnimation()) || player.getInteracting() == null || !session.isTarget(player.getInteracting())) {
+        if (player.getInteracting() == null || !session.isTarget(player.getInteracting()) || !splashAnimations.contains(player.getAnimation())) {
             return;
         }
 
-        if (session.getSplasher().getPlayer() != null && session.getSplasher().getPlayer().equals(player)) {
+        if (player == session.getSplasher().getPlayer()) {
             session.getSplasher().updateLastAttack();
         } else {
             session.getSplasher().updatePlayer(player);
