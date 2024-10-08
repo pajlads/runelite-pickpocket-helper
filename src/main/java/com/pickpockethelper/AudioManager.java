@@ -1,12 +1,16 @@
 package com.pickpockethelper;
 
+import com.google.common.math.DoubleMath;
+import com.google.common.primitives.Floats;
 import com.pickpockethelper.utility.AlertID;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.util.*;
@@ -19,24 +23,30 @@ import java.util.*;
 public class AudioManager {
     private final HashMap<Integer, Clip> clips = new HashMap<>();
 
+    @Inject
+    private PickpocketHelperConfig config;
+
     /**
      * Plays the file connected to the provided alert id.
      * If the clip is already running it does nothing.
      * @param alertId alert to be played.
      */
     public boolean play(int alertId) {
-        if (!clips.containsKey(alertId)) {
+        Clip clip = clips.get(alertId);
+        if (clip == null) {
             log.debug("Clip doesn't exist: " + alertId);
             return false;
         }
 
-        Clip clip = clips.get(alertId);
-        if(clip.isRunning()) {
-            return true;
+        if (!clip.isRunning()) {
+            var control = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            var gain = (float) DoubleMath.log2(config.volume() / 50D) * 20;
+            control.setValue(Floats.constrainToRange(gain, control.getMinimum(), control.getMaximum()));
+
+            clip.setFramePosition(0);
+            clip.start();
         }
-        clip.setFramePosition(0);
-        clip.start();
-		return true;
+        return true;
     }
 
     public void init() {
