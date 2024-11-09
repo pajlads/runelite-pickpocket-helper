@@ -1,12 +1,33 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended"
+    "config:recommended",
+    ":prHourlyLimitNone",
+    ":prConcurrentLimitNone",
+    ":separateMultipleMajorReleases",
+    ":combinePatchMinorReleases",
+    ":pinVersions"
   ],
+  "baseBranches": ["main"],
+  "branchPrefix": "chore/dependencies/",
+  "digest": {
+    "enabled": false
+  },
+  "labels": ["dependencies"],
   "packageRules": [
     {
       "matchManagers": ["gradle"],
       "enabled": false
+    },
+    {
+      "matchPackagePatterns": ["*"],
+      "semanticCommitType": "chore"
     }
-  ]
+  ],
+  "rebaseWhen": "behind-base-branch",
+  "reviewers": ["iProdigy"],
+  "vulnerabilityAlerts": {
+    "assignees": ["iProdigy"],
+    "labels": ["dependencies", "security"]
+  }
 }
