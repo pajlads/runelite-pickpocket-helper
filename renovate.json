@@ -4,6 +4,7 @@
     "config:recommended",
     ":prHourlyLimitNone",
     ":prConcurrentLimitNone",
+    ":disableDependencyDashboard",
     ":separateMultipleMajorReleases",
     ":combinePatchMinorReleases",
     ":pinVersions"
