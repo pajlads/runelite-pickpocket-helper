@@ -1,5 +1,6 @@
 package com.pickpockethelper.entity;
 
+import com.pickpockethelper.utility.ArdyMode;
 import com.pickpockethelper.utility.Helper;
 import java.util.Objects;
 import lombok.Getter;
@@ -12,7 +13,7 @@ import java.util.List;
 
 public class Target {
     private static final int DEFAULT_DESPAWN_TIME = 300;
-    private static final int ARDY_KNIGHT_DESPAWN_TIME = 600;
+    private static final int ARDY_KNIGHT_GROUP_DESPAWN_TIME = 600;
 
     private final Session session;
 
@@ -71,7 +72,7 @@ public class Target {
         if (lastMove == null) {
             return -1;
         }
-        int despawnTime = isArdyKnight() ? ARDY_KNIGHT_DESPAWN_TIME : DEFAULT_DESPAWN_TIME;
+        int despawnTime = isArdyKnight() && session.getConfig().ardyMode() == ArdyMode.GROUP ? ARDY_KNIGHT_GROUP_DESPAWN_TIME : DEFAULT_DESPAWN_TIME;
         int secondsSinceLastMove = Helper.secondsSince(lastMove);
         Integer secondsSinceLastAttackReceived = (session.getSplasher().getLastAttack() != null) ? Helper.secondsSince(session.getSplasher().getLastAttack()) : null;
         int secondsBeforeDespawn = (secondsSinceLastAttackReceived == null || secondsSinceLastMove < secondsSinceLastAttackReceived) ? despawnTime - secondsSinceLastMove : despawnTime - secondsSinceLastAttackReceived;
