@@ -2,6 +2,8 @@ package com.pickpockethelper;
 
 import com.pickpockethelper.utility.AlertType;
 import java.awt.Color;
+
+import com.pickpockethelper.utility.ArdyMode;
 import net.runelite.client.config.Alpha;
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
@@ -309,10 +311,21 @@ public interface PickpocketHelperConfig extends Config
 	}
 
 	@ConfigItem(
+		keyName = "ardyMode",
+		name = "Ardy Knight Mode",
+		description = "Controls whether Knight of Ardougne despawn timer should be 600 seconds (for large groups) or 300 seconds (for solo).",
+		position = 1,
+		section = indicatorsSection
+	)
+	default ArdyMode ardyMode() {
+		return ArdyMode.GROUP;
+	}
+
+	@ConfigItem(
 		keyName = "highLightTarget",
 		name = "Highlight Target",
 		description = "Highlight the clickable area of your last target.",
-		position = 1,
+		position = 2,
 		section = indicatorsSection
 	)
 	default boolean highLightTarget()
@@ -325,7 +338,7 @@ public interface PickpocketHelperConfig extends Config
 		keyName = "npcColor",
 		name = "Highlight Color",
 		description = "Color of the highlight border, menu, and text.",
-		position = 2,
+		position = 3,
 		section = indicatorsSection
 	)
 	default Color highlightColor()
@@ -338,7 +351,7 @@ public interface PickpocketHelperConfig extends Config
 		keyName = "fillColor",
 		name = "Fill Color",
 		description = "Color of the highlight fill",
-		position = 3,
+		position = 4,
 		section = indicatorsSection
 	)
 	default Color fillColor()
@@ -350,7 +363,7 @@ public interface PickpocketHelperConfig extends Config
 		keyName = "borderWidth",
 		name = "Border Width",
 		description = "Width of the highlighted border",
-		position = 4,
+		position = 5,
 		section = indicatorsSection
 	)
 	default double borderWidth()
@@ -362,7 +375,7 @@ public interface PickpocketHelperConfig extends Config
 		keyName = "outlineFeather",
 		name = "Outline Feather",
 		description = "Fade the highlight outline with a value of 0 to 4.",
-		position = 5,
+		position = 6,
 		section = indicatorsSection
 	)
 	@Range(

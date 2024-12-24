@@ -1,8 +1,10 @@
 package com.pickpockethelper.entity;
 
+import com.pickpockethelper.PickpocketHelperConfig;
 import lombok.Getter;
 import net.runelite.api.Actor;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.time.Duration;
 import java.time.Instant;
@@ -14,6 +16,7 @@ import java.time.Instant;
 @Getter
 @Singleton
 public class Session {
+    private final PickpocketHelperConfig config;
     private final Target target;
     private final Splasher splasher;
     private Instant lastPickpocketAttempt;
@@ -25,7 +28,9 @@ public class Session {
     private int pickpocketFailCount = 0;
     private Instant sessionStart;
 
-    public Session() {
+    @Inject
+    public Session(PickpocketHelperConfig pluginConfig) {
+        config = pluginConfig;
         target = new Target(this);
         splasher = new Splasher();
     }
