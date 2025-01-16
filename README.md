@@ -1,5 +1,6 @@
 # Pickpocket Helper
 Adds quality of life improvements for pickpocketing.
+
 ## Features
 Currently, the plugin offers the following improvements:
 <ol>
@@ -59,6 +60,3 @@ Provides additional information about your pickpocket session:
 |:-----------------------|:----------------------------------------------------------------------------|
 | Splasher Info	         | Info about the player splashing your target, like name and idle status.     |
 | Statistics	            | Statistics about the session, like total- and per hour successful attempts. |
-
-## Feedback
-This has been kind of an experiment to learn to develop plugins. If you happen to encounter things that don't work properly or have suggestions/requests - please do let me know!
