@@ -6,11 +6,12 @@ import com.pickpockethelper.ui.SplasherOverlay;
 import com.pickpockethelper.ui.StatisticOverlay;
 import com.pickpockethelper.ui.StatusOverlay;
 import com.pickpockethelper.ui.TimerOverlay;
+import com.google.inject.Provides;
 import com.pickpockethelper.utility.AlertID;
 import com.pickpockethelper.utility.AnimationID;
+import com.pickpockethelper.utility.Helper;
 import com.pickpockethelper.utility.MessagePattern;
 import com.pickpockethelper.utility.SoundEffectID;
-import com.google.inject.Provides;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.*;
 import net.runelite.api.events.*;
@@ -139,14 +140,19 @@ public class PickpocketHelperPlugin extends Plugin {
 
         Actor actor = (Actor) renderable;
 
-        if(session.isTarget(actor) || actor.equals(client.getLocalPlayer()) || actor.equals(session.getSplasher().getPlayer())) {
+        Player localPlayer = client.getLocalPlayer();
+        if (session.isTarget(actor) || actor.equals(localPlayer) || actor.equals(session.getSplasher().getPlayer())) {
             return true;
         }
 
-        if(actor instanceof NPC) {
-            NPC npc = (NPC) actor;
-            if(npc.getComposition().isFollower()) {
-                return client.getLocalPlayer().equals(npc.getInteracting());
+        if (actor instanceof NPC) {
+            if (actor.getInteracting() == localPlayer) {
+                NPC npc = (NPC) actor;
+                if (Helper.RANDOM_EVENT_NPC_IDS.contains(npc.getId())) {
+                    return config.showOwnRandomEvents();
+                } else {
+                    return npc.getComposition().isFollower();
+                }
             }
 
             return false;
