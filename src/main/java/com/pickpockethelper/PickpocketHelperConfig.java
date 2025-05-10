@@ -123,7 +123,7 @@ public interface PickpocketHelperConfig extends Config
 	@Units(Units.PERCENT)
 	@Range(min = 1, max = 100)
 	default int volume() {
-		return 50;
+		return 20;
 	}
 
 	@ConfigItem(
@@ -197,7 +197,7 @@ public interface PickpocketHelperConfig extends Config
 	)
 	default boolean enableGlovesNotification()
 	{
-		return false;
+		return true;
 	}
 
 	@ConfigItem(
@@ -215,25 +215,25 @@ public interface PickpocketHelperConfig extends Config
 	@ConfigItem(
 		keyName = "enableShadowVeilNotification",
 		name = "Shadow Veil Fading",
-		description = "Enable being notified when the Shadow Veil spell fades. Only recommended when you have veil sounds muted.",
+		description = "Enable being notified when the Shadow Veil spell fades.",
 		position = 8,
 		section = alertSection
 	)
 	default boolean enableShadowVeilNotification()
 	{
-		return false;
+		return true;
 	}
 
 	@ConfigItem(
 		keyName = "enableNoSpaceNotification",
-		name = "No Space",
-		description = "Enable being notified when there is no space for new pouches. Only recommended when you have pouch sounds muted.",
+		name = "Full Inventory",
+		description = "Enable being notified when there is no space for new pouches.",
 		position = 9,
 		section = alertSection
 	)
 	default boolean enableNoSpaceNotification()
 	{
-		return false;
+		return true;
 	}
 
 	@ConfigItem(
