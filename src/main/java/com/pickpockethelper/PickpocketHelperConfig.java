@@ -268,6 +268,18 @@ public interface PickpocketHelperConfig extends Config
 	}
 
 	@ConfigItem(
+		keyName = "showOwnRandomEvents",
+		name = "Show Own Random Events",
+		description = "Whether your random event NPCs should bypass the 'Hide Others' setting, so that non-RuneLite players are not griefed.<br/>" +
+				"It is recommended to custom swap the left click on event NPCs to be 'Dismiss'.",
+		position = 0,
+		section = utilitySection
+	)
+	default boolean showOwnRandomEvents() {
+		return true;
+	}
+
+	@ConfigItem(
 		keyName = "blockSpam",
 		name = "Hide Spam Messages",
 		description = "Hide game messages that spam your chat box but aren't filtered, like having to empty your pouches.",
