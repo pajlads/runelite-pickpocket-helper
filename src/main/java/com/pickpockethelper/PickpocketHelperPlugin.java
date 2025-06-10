@@ -233,7 +233,7 @@ public class PickpocketHelperPlugin extends Plugin {
 			return;
 		}
 
-		String message = client.getStringStack()[client.getStringStackSize() - 1];
+		String message = (String) client.getObjectStack()[client.getObjectStackSize() - 1];
 		String content = Text.removeTags(message);
 
         for (Pattern pattern : blockedPatterns) {
