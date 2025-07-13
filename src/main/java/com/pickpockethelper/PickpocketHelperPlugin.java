@@ -8,13 +8,13 @@ import com.pickpockethelper.ui.StatusOverlay;
 import com.pickpockethelper.ui.TimerOverlay;
 import com.google.inject.Provides;
 import com.pickpockethelper.utility.AlertID;
-import com.pickpockethelper.utility.AnimationID;
 import com.pickpockethelper.utility.Helper;
 import com.pickpockethelper.utility.MessagePattern;
 import com.pickpockethelper.utility.SoundEffectID;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.*;
 import net.runelite.api.events.*;
+import net.runelite.api.gameval.AnimationID;
 import net.runelite.client.callback.Hooks;
 import net.runelite.client.chat.ChatColorType;
 import net.runelite.client.chat.ChatMessageBuilder;
@@ -46,10 +46,10 @@ public class PickpocketHelperPlugin extends Plugin {
             Pattern.compile(MessagePattern.CANT_REACH_PATTERN)
     );
     private static final Set<Integer> splashAnimations = Set.of(
-            AnimationID.ATTACK_MAGE_IBAN,
-            AnimationID.ATTACK_MAGE_STANDARD,
-            AnimationID.ATTACK_MAGE_WAVE,
-            AnimationID.ATTACK_MAGE_SURGE
+            AnimationID.HUMAN_CASTIBANBLAST,
+            AnimationID.HUMAN_CASTSTRIKE_STAFF_WALKMERGE,
+            AnimationID.HUMAN_CASTWAVE_STAFF_WALKMERGE,
+            AnimationID.HUMAN_CAST_SURGE_WALKMERGE
     );
     private static final Set<Integer> rogueEquipmentIds = Set.of(
             ItemID.ROGUE_BOOTS,
