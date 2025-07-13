@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.*;
 import net.runelite.api.events.*;
 import net.runelite.api.gameval.AnimationID;
+import net.runelite.api.gameval.ItemID;
 import net.runelite.client.callback.Hooks;
 import net.runelite.client.chat.ChatColorType;
 import net.runelite.client.chat.ChatMessageBuilder;
@@ -52,11 +53,11 @@ public class PickpocketHelperPlugin extends Plugin {
             AnimationID.HUMAN_CAST_SURGE_WALKMERGE
     );
     private static final Set<Integer> rogueEquipmentIds = Set.of(
-            ItemID.ROGUE_BOOTS,
-            ItemID.ROGUE_GLOVES,
-            ItemID.ROGUE_MASK,
-            ItemID.ROGUE_TOP,
-            ItemID.ROGUE_TROUSERS
+            ItemID.ROGUESDEN_BOOTS,
+            ItemID.ROGUESDEN_GLOVES,
+            ItemID.ROGUESDEN_HELM,
+            ItemID.ROGUESDEN_BODY,
+            ItemID.ROGUESDEN_LEGS
     );
 
     @Inject
